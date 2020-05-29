@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>Cal High's Senior Class of 2020</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='map'></div>
+    <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY2FsaWZvcm5pYW5wYXBlciIsImEiOiJja2FxcTE3MGMwdXB4MnFxcmphd3hiZXU4In0.PCc1fh2EL2kRuvHk5Eb_uA'; // replace this with your access token
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/californianpaper/ckaqpdg9e1rup1iqm9dzn3y8h', // replace this with your style URL
+      center: [-121.945717, 37.747559],
+      zoom: 10.7
+    });
+    map.on('click', function(e) {
+    var features = map.queryRenderedFeatures(e.point, {
+        layers: ['seniors-2020'] // replace this with the name of the layer
+    });
+
+    if (!features.length) {
+        return;
+    }
+
+    var feature = features[0];
+
+    var popup = new mapboxgl.Popup({ offset: [0, -15] })
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML('<h3>' + feature.properties.School + '</h3><p>' + feature.properties.Names + '</p>') // capitalization needs to match data sheet column headers
+        .addTo(map);
+    });
+
+    </script>
+  </body>
+</html>
+
